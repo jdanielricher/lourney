@@ -33,6 +33,7 @@ const getCourses = (req, res, next) => {
 };
 
 const addCourses = (req, res, next) => {
+    /*req.app.get_courses([4]) */
 
 }
 
