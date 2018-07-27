@@ -1,21 +1,81 @@
 require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser');
+const { json } = require('body-parser');
 const course_controller = require("./controllers/course_controller");
+const massive = require('massive');
+
+//auth0///
+const session = require('express-session');
+const passport = require('passport');
+const path = require('path');
+
+const strategy = require('./strategy');
+const { logout, login, getUsers } = require('./controllers/user_controller');
+
+const {
+    getCourses,
+    deleteCourses,
+    editCourses,
+    addCourses
+} = require('./controllers/course_controller');
 
 const app = express();
+app.use(json());
 
-app.use(bodyParser.json());
+massive(process.env.CONNECTION_STRING)
+    .then(db => { app.set("db", db); })
+    .catch(e => console.log(e));
 
+app.use(
+    session({
+        secret: process.env.SECRET,
+        resave: false,
+        saveUninitialized: false
+    })
+);
 
-app.get("/api-2.0/courses/", course_controller.getCourses)
-app.delete("/api-2.0/courses/:id", course_controller.deleteCourses)
-app.put("/api-2.0/courses/:id", course_controller.editCourses)
-app.post("/api-2.0/courses/", course_controller.addCourses)
+app.use((req, res, next) => {
+    if (!req.session.courses) {
+        req.session.courses = [];
+    }
+    next();
+});
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(strategy);
 
-const port = process.env.SERVER_PORT || 3001;
+passport.serializeUser((user, done) => {
+    const db = app.get('db');
+    db.users
+        .get_users(user.id)
+        .then(response => {
+            if (!response[0]) {
+                db.users
+                    .add_user([user.firstName, user.lastName, user.id])
+                    .then(res => done(null, res[0]))
+                    .catch(err => done(err, null));
+            } else {
+                return done(null, response[0]);
+            }
+        })
+        .catch(err => done(err, null));
+});
+
+passport.deserializeUser((user, done) => {
+    done(null, user);
+});
+
+//COURSE ENDPOINTS///
+app.get("/courses/", course_controller.getCourses);
+app.delete("/delete_courses/:id", course_controller.deleteCourses);
+// app.put("/edit_courses/:id", course_controller.editCourses);
+// app.post("/add_courses/", course_controller.addCourses);
+
+///USER ENDPOINTS///
+app.get('/login', login);
+app.post('/logout', logout);
+app.get('/api/me', getUsers);
+
+const port = process.env.SERVER_PORT || 3003;
 app.listen(port, () => { console.log(`Listening on port: ${port}`); });
-
-
-
