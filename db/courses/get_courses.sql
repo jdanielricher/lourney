@@ -1,3 +1,1 @@
-SELECT * from courses
-JOIN users ON users.user_ID = courses.user_ID where users.user_ID = $1
-
+select * from courses c join users u on u.user_id = $1

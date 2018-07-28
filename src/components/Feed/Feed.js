@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import './Feed.css';
 
-class Feed extends Component {
+export default class Feed extends Component {
     render() {
         return (
-            <div> See What People are Learning </div>
+            <div className="test" />
+
         )
     }
 }
-
-export default Feed;

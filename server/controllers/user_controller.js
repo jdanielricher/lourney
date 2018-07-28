@@ -37,10 +37,23 @@ const newUser = (req, res, next) => {
         .catch(e => res.status(500).send("Something went horribly wrong"));
 };
 
+const getUserCourses = (req, res, next) => {
+    const db = req.app.get("db")
+
+    const { userId } = req.params;
+
+    console.log(req.params)
+
+    db.courses.get_courses([userId]).then(courses => {
+        res.status(200).send(courses)
+    })
+}
+
 
 module.exports = {
     logout,
     login,
     getUsers,
-    newUser
+    newUser,
+    getUserCourses
 };

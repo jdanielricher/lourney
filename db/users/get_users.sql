@@ -1,3 +1,3 @@
-SELECT * FROM users;
+SELECT * FROM users WHERE authid = $1
 
 

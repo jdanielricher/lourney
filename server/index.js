@@ -10,13 +10,13 @@ const passport = require('passport');
 const path = require('path');
 
 const strategy = require('./strategy');
-const { logout, login, getUsers } = require('./controllers/user_controller');
+const { logout, login, getUsers, getUserCourses } = require('./controllers/user_controller');
 
 const {
     getCourses,
     deleteCourses,
     editCourses,
-    addCourses
+    addCourse
 } = require('./controllers/course_controller');
 
 const app = express();
@@ -47,12 +47,15 @@ passport.use(strategy);
 
 passport.serializeUser((user, done) => {
     const db = app.get('db');
+
+    console.log(user)
+
     db.users
         .get_users(user.id)
         .then(response => {
             if (!response[0]) {
                 db.users
-                    .add_user([user.firstName, user.lastName, user.id])
+                    .add_user([user.displayName, user.id])
                     .then(res => done(null, res[0]))
                     .catch(err => done(err, null));
             } else {
@@ -76,6 +79,9 @@ app.delete("/delete_courses/:id", course_controller.deleteCourses);
 app.get('/login', login);
 app.post('/logout', logout);
 app.get('/api/me', getUsers);
+
+app.get("/api/getCourses:userId", getUserCourses)
+app.post("/api/addCourse", addCourse);
 
 const port = process.env.SERVER_PORT || 3003;
 app.listen(port, () => { console.log(`Listening on port: ${port}`); });

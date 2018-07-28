@@ -1,2 +1,2 @@
-INSERT INTO users(user_id, firstName, lastName, bio)
-VALUES($1,$2,$3,$4) RETURNING *;
+INSERT INTO users(username, authid)
+VALUES($1,$2) RETURNING *;
