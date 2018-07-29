@@ -5,23 +5,53 @@ import { connect } from "react-redux"
 import { getUser } from "../../ducks/userReducer"
 
 class Profile extends Component {
+    constructor() {
+        super();
+        this.state = {
+            user_courses: []
+        }
+    }
+
     componentDidMount() {
         this.props.getUser().then(() => {
             axios.get(`/api/getCourses${this.props.userReducer.user.user_id}`).then(results => {
                 console.log(results)
+                this.setState({
+                    user_courses: results.data
+                });
             })
         })
     }
 
-
     render() {
         console.log(this.props.userReducer.user)
+        console.log(this.state.user_courses)
+        let userCoursesToDisplay = this.state.user_courses.map((e, index) => {
+            return (
+                //e.id
+                <div key="authid">
+                    <div> Profile </div>
+
+                    <div>
+                        {e.username}
+                    </div>
+                    <div>
+                        {e.bio}
+                    </div>
+
+                </div>
+
+            )
+        })
         return (
-            <div> Profile </div>
+            <div> {userCoursesToDisplay} </div>
         )
     }
-
 }
+
+
+
+
 
 const mapStateToProps = state => state;
 

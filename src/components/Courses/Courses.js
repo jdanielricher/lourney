@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import "./Courses.css";
 import axios from 'axios';
+// import swal from 'sweetalert';
 // import SearchBar from '../SearchBar/SearchBar';
 
 import { connect } from "react-redux"
@@ -15,7 +16,7 @@ class Courses extends Component {
             filterString: "",
             courses: []
         }
-        this.setState
+        this.setState()
 
         // this.props.getCourses();
     }
@@ -41,9 +42,9 @@ class Courses extends Component {
         })
     }
 
-    handleLinkJump() {
+    // handleLinkJump() {
 
-    }
+    // }
 
     render() {
         console.log(this.state.courses)
@@ -57,7 +58,7 @@ class Courses extends Component {
                     <h2>{element.title}</h2>
                     {/* <h2> {element.image_480x270}</h2> */}
                     <button onClick={() => this.handleAdd(user_id, element.id, element.title)}>Add to Profile</button>
-                    <button onClick={this.handleLinkJump(e => { e.id })}>See on Udemy.com</button>
+                    {/* <button onClick={this.handleLinkJump(e => { e.id })}>See on Udemy.com</button> */}
                 </div>
             )
         })
