@@ -55,10 +55,8 @@ class Courses extends Component {
             console.log(element)
             return (
                 <div key={index}>
-                    <h2>{element.title}</h2>
-                    {/* <h2> {element.image_480x270}</h2> */}
                     <button onClick={() => this.handleAdd(user_id, element.id, element.title)}>Add to Profile</button>
-                    {/* <button onClick={this.handleLinkJump(e => { e.id })}>See on Udemy.com</button> */}
+                    {/* <button onClick={() => this.handleLinkJump(e => { e.id })}>See on Udemy.com</button> */}
                 </div>
             )
         })

@@ -23,7 +23,7 @@ class Header extends Component {
 
 
     render() {
-        console.log(this.state.user)
+        // console.log(this.state.user)
         let { user } = this.state;
         return (
             <div className="nav_links">

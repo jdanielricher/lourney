@@ -8,7 +8,8 @@ class Profile extends Component {
     constructor() {
         super();
         this.state = {
-            user_courses: []
+            user_courses: [],
+            course_name: []
         }
     }
 
@@ -24,27 +25,29 @@ class Profile extends Component {
     }
 
     render() {
-        console.log(this.props.userReducer.user)
-        console.log(this.state.user_courses)
-        let userCoursesToDisplay = this.state.user_courses.map((e, index) => {
-            return (
-                //e.id
-                <div key="authid">
-                    <div> Profile </div>
+        // console.log(this.props.userReducer.user)
+        // console.log(this.state.user_courses)
+        // let userCoursesToDisplay;
+        // this.state.user_courses && (userCoursesToDisplay = this.state.user_courses[0].username);
+        //     return (
+        //         //e.id
+        //         <div key="authid">
+        //             <div> Profile </div>
 
-                    <div>
-                        {e.username}
-                    </div>
-                    <div>
-                        {e.bio}
-                    </div>
+        //             <div>
+        //                 {e.username}
+        //             </div>
+        //             <div>
+        //                 {e.bio}
+        //             </div>
 
-                </div>
+        //         </div>
 
-            )
-        })
+        //     )
+        // })
         return (
-            <div> {userCoursesToDisplay} </div>
+            <div> {this.state.user_courses[0] && this.state.user_courses[0].username} </div>
+            //&& this
         )
     }
 }
