@@ -12,7 +12,6 @@ class Header extends Component {
         }
     }
 
-
     componentDidMount() {
         axios.get("/api/me").then(user => {
             this.setState({
@@ -21,9 +20,8 @@ class Header extends Component {
         })
     }
 
-
     render() {
-        // console.log(this.state.user)
+        console.log(this.state.user)
         let { user } = this.state;
         return (
             <div className="nav_links">

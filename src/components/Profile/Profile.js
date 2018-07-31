@@ -8,8 +8,7 @@ class Profile extends Component {
     constructor() {
         super();
         this.state = {
-            user_courses: [],
-            course_name: []
+            user_courses: []
         }
     }
 
@@ -20,40 +19,49 @@ class Profile extends Component {
                 this.setState({
                     user_courses: results.data
                 });
+                console.log(results.data)
             })
         })
     }
 
+
+    // console.log(this.props.userReducer.user)
+    // console.log(this.state.user_courses)
+    // let userCoursesToDisplay;
+    // this.state.user_courses && (userCoursesToDisplay = this.state.user_courses[0].username);
+    //     return (
+    //         //e.id
+    //         <div key="authid">
+    //             <div> Profile </div>
+    //             <div>
+    //                 {e.username}
+    //             </div>
+    //             <div>
+    //                 {e.bio}
+    //             </div>
+    //         </div>
+    //     )
+    // })
     render() {
-        // console.log(this.props.userReducer.user)
-        // console.log(this.state.user_courses)
-        // let userCoursesToDisplay;
-        // this.state.user_courses && (userCoursesToDisplay = this.state.user_courses[0].username);
-        //     return (
-        //         //e.id
-        //         <div key="authid">
-        //             <div> Profile </div>
+        let listOfCourses = this.state.user_courses.map((element, index) => {
+            return (
+                <div key={index}> {element.course_name} </div>
 
-        //             <div>
-        //                 {e.username}
-        //             </div>
-        //             <div>
-        //                 {e.bio}
-        //             </div>
-
-        //         </div>
-
-        //     )
-        // })
+            )
+        })
+        console.log(this.state.user_courses)
         return (
-            <div> {this.state.user_courses[0] && this.state.user_courses[0].username} </div>
-            //&& this
+            <div>
+                <h3>{this.state.user_courses[0] && this.state.user_courses[0].username}</h3>
+                {listOfCourses}
+            </div>
+
         )
     }
 }
 
 
-
+//depending on the user_id, display selected courses on the users profile
 
 
 const mapStateToProps = state => state;
