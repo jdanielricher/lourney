@@ -71,7 +71,7 @@ passport.deserializeUser((user, done) => {
 
 //COURSE ENDPOINTS///
 app.get("/courses/", course_controller.getCourses);
-app.delete("/delete_courses/:id", course_controller.deleteCourses);
+app.delete("/delete_courses/:userId/:courseId", course_controller.deleteCourses);
 // app.put("/edit_courses/:id", course_controller.editCourses);
 // app.post("/add_courses/", course_controller.addCourses);
 

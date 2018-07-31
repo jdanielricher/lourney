@@ -23,8 +23,10 @@ const getCourses = (req, res) => {
 };
 const deleteCourses = (req, res, next) => {
     console.log("hit deleteCourses")
+
+    console.log(req.params)
     const db = res.app.get('db');
-    db.delete_courses([req.params.id])
+    db.courses.delete_courses([req.params.userId, req.params.courseId])
         .then(() => res.status(200).send("Course successfully deleted"))
         .catch(e => res.status(500).send("Something went terribly wrong"));
 };

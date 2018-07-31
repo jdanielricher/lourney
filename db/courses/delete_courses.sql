@@ -1,1 +1,1 @@
-DELETE FROM courses WHERE course_id = $1
+DELETE FROM courses WHERE user_id = $1 AND course_id = $2
