@@ -12,6 +12,7 @@ class Feed extends Component {
             post: [],
             message: ""
         }
+        this.deletePost = this.deletePost.bind(this);
         this.getPosts = this.getPosts.bind(this);
         this.addPost = this.addPost.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -29,15 +30,21 @@ class Feed extends Component {
             this.setState({
                 post: posts.data
             })
-            console.log(posts)
+            // console.log(posts)
         })
     }
 
     addPost(post, userID) {
-        console.log(post)
+        // console.log(post)
         axios.post("/api/addPost", { post, userID }).then(x => {
-            console.log(x)
+            // console.log(x)
 
+        })
+    }
+
+    deletePost(userId, postId) {
+        axios.delete(`/deletePost/${userId}/${postId}`).then(() => {
+            this.getPosts();
         })
     }
 
@@ -48,20 +55,21 @@ class Feed extends Component {
     }
 
     handleKeyPress(event) {
-        if (event.key == 'Enter') {
+        if (event.key === 'Enter') {
             this.handleChange(event.target.value)
         }
     }
 
     render() {
-        console.log(this.props)
+        // console.log(this.props)
         console.log(this.state)
         let postsToDisplay = this.state.post.map((element, index) => {
-            console.log(element.post)
-
+            console.log(element)
+            console.log(this.state.post[index].user_id, element.user_id)
             return (
                 <div key={index}>
                     <h3> {element.post} </h3>
+                    {this.state.post[index].user_id === element.user_id && <button onClick={() => this.deletePost(element.user_id, element.post_id)}>X</button>}
                 </div>
             )
         })

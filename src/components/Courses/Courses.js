@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import "./Courses.css";
 import axios from 'axios';
-// import swal from 'sweetalert';
-// import SearchBar from '../SearchBar/SearchBar';
 
 import { connect } from "react-redux"
-
 import { getUser } from "../../ducks/userReducer";
 
 class Courses extends Component {
@@ -17,10 +14,7 @@ class Courses extends Component {
             courses: []
         }
         this.setState()
-
-        // this.props.getCourses();
     }
-
 
     componentDidMount() {
         this.props.getUser();
@@ -30,21 +24,11 @@ class Courses extends Component {
             })
     };
 
-
-    // handleDelete(course_ID) {
-    //     axios.delete(`/api/courses/${course_ID}`).then(() => {
-    //         this.props.getCourses();
-    //     });
-    // }
     handleAdd(userId, courseId, name) {
         axios.post("/api/addCourse", { userId, courseId, name }).then(res => {
             console.log(res)
         })
     }
-
-    // handleLinkJump() {
-
-    // }
 
     render() {
         console.log(this.state.courses)
@@ -64,12 +48,10 @@ class Courses extends Component {
         return (
             <div className="Courses">
                 {coursesToDisplay}
-                {/* {SearchBar} */}
             </div>
         );
     }
 }
 
 const mapStateToProps = state => state;
-
 export default connect(mapStateToProps, { getUser })(Courses)

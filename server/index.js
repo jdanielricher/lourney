@@ -20,7 +20,8 @@ const {
 
 const {
     getPosts,
-    addPost
+    addPost,
+    deletePost
 } = require("./controllers/post_controller")
 
 const app = express();
@@ -73,24 +74,27 @@ passport.deserializeUser((user, done) => {
     done(null, user);
 });
 
-//COURSE ENDPOINTS///
+//COURSES ENDPOINTS///
 app.get("/courses/", getCourses);
 app.delete("/delete_courses/:userId/:courseId", deleteCourses);
+// app.get('/courses/?page=')
 // app.put("/edit_courses/:id", course_controller.editCourses);
 // app.post("/add_courses/", course_controller.addCourses);
 
-///USER ENDPOINTS///
+///USERS ENDPOINTS///
 app.get('/login', login);
 app.post('/logout', logout);
 app.get('/api/me', getUsers);
+
 
 app.get("/api/getCourses:userId", getUserCourses)
 app.post("/api/addCourse", addCourse);
 
 
-///POST ENDPOINTS///
+///POSTS ENDPOINTS///
 app.get("/api/posts", getPosts)
 app.post("/api/addPost", addPost)
+app.delete("/deletePost/:userId/:postId", deletePost)
 
 
 const port = process.env.SERVER_PORT || 3003;
