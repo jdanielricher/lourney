@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const { json } = require('body-parser');
-const course_controller = require("./controllers/course_controller");
 const massive = require('massive');
 
 //auth0///
@@ -18,6 +17,11 @@ const {
     editCourses,
     addCourse
 } = require('./controllers/course_controller');
+
+const {
+    getPosts,
+    addPost
+} = require("./controllers/post_controller")
 
 const app = express();
 app.use(json());
@@ -48,7 +52,7 @@ passport.use(strategy);
 passport.serializeUser((user, done) => {
     const db = app.get('db');
 
-    console.log(user)
+    // console.log(user)
 
     db.users
         .get_users(user.id)
@@ -70,8 +74,8 @@ passport.deserializeUser((user, done) => {
 });
 
 //COURSE ENDPOINTS///
-app.get("/courses/", course_controller.getCourses);
-app.delete("/delete_courses/:userId/:courseId", course_controller.deleteCourses);
+app.get("/courses/", getCourses);
+app.delete("/delete_courses/:userId/:courseId", deleteCourses);
 // app.put("/edit_courses/:id", course_controller.editCourses);
 // app.post("/add_courses/", course_controller.addCourses);
 
@@ -82,6 +86,12 @@ app.get('/api/me', getUsers);
 
 app.get("/api/getCourses:userId", getUserCourses)
 app.post("/api/addCourse", addCourse);
+
+
+///POST ENDPOINTS///
+app.get("/api/posts", getPosts)
+app.post("/api/addPost", addPost)
+
 
 const port = process.env.SERVER_PORT || 3003;
 app.listen(port, () => { console.log(`Listening on port: ${port}`); });

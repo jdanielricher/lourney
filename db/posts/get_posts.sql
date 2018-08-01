@@ -1,0 +1,1 @@
+SELECT post FROM posts;
