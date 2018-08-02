@@ -21,7 +21,8 @@ const {
 const {
     getPosts,
     addPost,
-    deletePost
+    deletePost,
+    updatePost
 } = require("./controllers/post_controller")
 
 const app = express();
@@ -95,6 +96,7 @@ app.post("/api/addCourse", addCourse);
 app.get("/api/posts", getPosts)
 app.post("/api/addPost", addPost)
 app.delete("/deletePost/:userId/:postId", deletePost)
+app.put("/updatePost/:userId/:postId", updatePost)
 
 
 const port = process.env.SERVER_PORT || 3003;
