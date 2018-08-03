@@ -38,15 +38,11 @@ class Feed extends Component {
             this.setState({
                 post: posts.data
             })
-            // console.log(posts)
         })
     }
 
     addPost(post, userID) {
-        // console.log(post)
         axios.post("/api/addPost", { post, userID }).then(x => {
-            // console.log(x)
-
         })
     }
 
@@ -55,7 +51,6 @@ class Feed extends Component {
             this.getPosts();
         })
     }
-
 
     updatePost(event, post, userId, postId) {
         if (event.key === 'Enter') {
@@ -78,7 +73,6 @@ class Feed extends Component {
         }
     }
 
-
     handleFlag(flag, postId, inputVal) {
         this.setState({
             editInput: !flag,
@@ -97,10 +91,8 @@ class Feed extends Component {
 
     render() {
         console.log(this.state)
-        // console.log(this.state)
         let postsToDisplay = this.state.post.map((element, index) => {
             console.log(element)
-            // console.log(this.state.post[index].user_id, element.user_id)
             if (this.props.userReducer.user.user_id === element.user_id) {
                 return (
                     <div key={index}>
@@ -132,7 +124,6 @@ class Feed extends Component {
     }
 }
 
-// 
 const mapStateToProps = state => state;
 
 export default connect(mapStateToProps, { getUser })(Feed);

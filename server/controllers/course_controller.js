@@ -1,68 +1,62 @@
 const request = require("request");
 
-
-
 //////////////////////////////////
 const getCourses = (req, res) => {
-    console.log("hit getCourses")
-    var options = {
-        method: 'GET',
-        url: 'https://www.udemy.com/api-2.0/courses',
-        headers:
-        {
-            'Postman-Token': 'e0450dc4-4376-4b15-9093-0137b73b024b',
-            'Cache-Control': 'no-cache',
-            Authorization: 'Basic SzdNeTI4djVFaGdaNUVYNUc1RFdzR2tHb2g2Qk5WaGZGQnpVc3NoaTpwdFB6WTRkRUhaODdNOXNzeXZleUFqSG1ZOEcybDdwQ0kyNlJSb1VNMmNFR0l1N3ozWFhFMHNVRG5oUU1TTG5UQTU1cDRiak9SNFZsVUxPNnhVRWxTR2dOSGY4MmtwZ0NCZUk0NWtNVGJwM1hiYXQybWlGengxekdMVGVOZ0E2TQ=='
-        }
-    };
-    request(options, function (error, response, body) {
-        if (error) throw new Error(error);
-        res.send(body);
-    });
+  console.log("hit getCourses");
 
+  console.log(req.query.page);
+  var options = {
+    method: "GET",
+    url: `https://www.udemy.com/api-2.0/courses/?page=${parseInt(
+      req.query.page
+    )}`,
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      Authorization:
+        "Basic SzdNeTI4djVFaGdaNUVYNUc1RFdzR2tHb2g2Qk5WaGZGQnpVc3NoaTpwdFB6WTRkRUhaODdNOXNzeXZleUFqSG1ZOEcybDdwQ0kyNlJSb1VNMmNFR0l1N3ozWFhFMHNVRG5oUU1TTG5UQTU1cDRiak9SNFZsVUxPNnhVRWxTR2dOSGY4MmtwZ0NCZUk0NWtNVGJwM1hiYXQybWlGengxekdMVGVOZ0E2TQ==",
+      "Content-Type": "application/json;charset=utf-8"
+    }
+  };
+  request(options, function(error, response, body) {
+    if (error) throw new Error(error);
+    console.log(body);
+    res.send(body);
+  });
 };
 const deleteCourses = (req, res, next) => {
-    console.log("hit deleteCourses")
+  console.log("hit deleteCourses");
 
-    console.log(req.params)
-    const db = res.app.get('db');
-    db.courses.delete_courses([req.params.userId, req.params.courseId])
-        .then(() => res.status(200).send("Course successfully deleted"))
-        .catch(e => res.status(500).send("Something went terribly wrong"));
+  console.log(req.params);
+  const db = res.app.get("db");
+  db.courses
+    .delete_courses([req.params.userId, req.params.courseId])
+    .then(() => res.status(200).send("Course successfully deleted"))
+    .catch(e => res.status(500).send("Something went terribly wrong"));
 };
 
 const newCourses = (req, res, next) => {
-    console.log("hit newCourses")
-    console.log(req.body);
-    const db = req.app.get("db");
-    const {
-        user_ID,
-        course_ID,
-        course_name,
-        description
-    } = req.body;
-    db.add_courses([
-        user_ID,
-        course_ID,
-        course_name,
-        description
-    ]).then(() => res.status(200).send("All set"))
-        .catch(e => res.status(500).send("Something went horribly wrong"));
+  console.log("hit newCourses");
+  console.log(req.body);
+  const db = req.app.get("db");
+  const { user_ID, course_ID, course_name, description } = req.body;
+  db.add_courses([user_ID, course_ID, course_name, description])
+    .then(() => res.status(200).send("All set"))
+    .catch(e => res.status(500).send("Something went horribly wrong"));
 };
 
 const addCourse = (req, res, next) => {
-    const db = req.app.get("db");
+  const db = req.app.get("db");
 
-    const { userId, courseId, name } = req.body
+  const { userId, courseId, name } = req.body;
 
-    db.courses.add_courses([userId, courseId, name]).then(response => {
-        res.sendStatus(200)
-    })
-}
+  db.courses.add_courses([userId, courseId, name]).then(response => {
+    res.sendStatus(200);
+  });
+};
 
 module.exports = {
-    getCourses,
-    deleteCourses,
-    addCourse,
-    newCourses
-}
+  getCourses,
+  deleteCourses,
+  addCourse,
+  newCourses
+};
