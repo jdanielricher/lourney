@@ -50,10 +50,16 @@ class Courses extends Component {
     }
   }
 
-  handleAdd(userId, courseId, name) {
-    axios.post("/api/addCourse", { userId, courseId, name }).then(res => {
-      console.log(res);
-    });
+  handleAdd(userId, courseId, course_name) {
+    axios
+      .post(`/api/addCourse/${userId}/${courseId}`, {
+        // userId,
+        // courseId,
+        course_name
+      })
+      .then(res => {
+        console.log(res);
+      });
   }
 
   render() {

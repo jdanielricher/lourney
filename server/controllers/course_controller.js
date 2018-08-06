@@ -4,7 +4,7 @@ const request = require("request");
 const getCourses = (req, res) => {
   console.log("hit getCourses");
 
-  console.log(req.query.page);
+  //   console.log(req.query.page);
   var options = {
     method: "GET",
     url: `https://www.udemy.com/api-2.0/courses/?page=${parseInt(
@@ -19,14 +19,14 @@ const getCourses = (req, res) => {
   };
   request(options, function(error, response, body) {
     if (error) throw new Error(error);
-    console.log(body);
+    // console.log(body);
     res.send(body);
   });
 };
 const deleteCourses = (req, res, next) => {
   console.log("hit deleteCourses");
 
-  console.log(req.params);
+  //   console.log(req.params);
   const db = res.app.get("db");
   db.courses
     .delete_courses([req.params.userId, req.params.courseId])
@@ -34,29 +34,25 @@ const deleteCourses = (req, res, next) => {
     .catch(e => res.status(500).send("Something went terribly wrong"));
 };
 
-const newCourses = (req, res, next) => {
-  console.log("hit newCourses");
-  console.log(req.body);
-  const db = req.app.get("db");
-  const { user_ID, course_ID, course_name, description } = req.body;
-  db.add_courses([user_ID, course_ID, course_name, description])
-    .then(() => res.status(200).send("All set"))
-    .catch(e => res.status(500).send("Something went horribly wrong"));
-};
-
 const addCourse = (req, res, next) => {
   const db = req.app.get("db");
-
-  const { userId, courseId, name } = req.body;
-
-  db.courses.add_courses([userId, courseId, name]).then(response => {
-    res.sendStatus(200);
-  });
+  //   const { user_ID, course_ID, course_name, description } = req.body;
+  console.log("hit addCourse");
+  console.log("REQ.PARAMS: ", req.params);
+  console.log("REQ.BODY: ", req.body);
+  db.courses
+    .add_courses([
+      req.params.userId,
+      req.params.courseId,
+      req.body.course_name,
+      req.body.description
+    ])
+    .then(() => res.status(200).send("Added Course"))
+    .catch(e => res.status(500).send("Something went horribly wrong"));
 };
 
 module.exports = {
   getCourses,
   deleteCourses,
-  addCourse,
-  newCourses
+  addCourse
 };
