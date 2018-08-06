@@ -105,28 +105,25 @@ class Profile extends Component {
           >
             Remove
           </button>
-          <form onSubmit={this.handleSubmit}>
-            <input
-              placeholder="Add Custom Course Here"
-              onChange={e =>
-                this.handleChange(e.target.value, element.course_id)
-              }
-              onKeyPress={e =>
-                this.addCourses(
-                  e,
-                  this.state.course_name,
-                  this.props.userReducer.user.user_id,
-                  element.course_id
-                )
-              }
-            />
-          </form>
         </div>
       );
     });
     console.log(this.state.user_courses);
     return (
       <div>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            placeholder="Add Custom Course Here"
+            onChange={e => this.handleChange(e.target.value)}
+            onKeyPress={e =>
+              this.addCourses(
+                e,
+                this.state.course_name,
+                this.props.userReducer.user.user_id
+              )
+            }
+          />
+        </form>
         <h3>
           {this.state.user_courses[0] && this.state.user_courses[0].username}
         </h3>
