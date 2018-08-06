@@ -43,12 +43,14 @@ const addCourse = (req, res, next) => {
   db.courses
     .add_courses([
       req.params.userId,
-      req.params.courseId,
       req.body.course_name,
       req.body.description
     ])
     .then(() => res.status(200).send("Added Course"))
-    .catch(e => res.status(500).send("Something went horribly wrong"));
+    .catch(e => {
+      console.log(e);
+      res.status(500).send("Something went horribly wrong");
+    });
 };
 
 module.exports = {

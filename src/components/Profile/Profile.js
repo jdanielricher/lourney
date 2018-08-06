@@ -49,6 +49,8 @@ class Profile extends Component {
   }
 
   addCourses(userId, courseId, course_name) {
+    console.log("COURSE ID: ", courseId);
+    console.log("USER ID: ", userId);
     axios.post(`/api/addCourse/${userId}/${courseId}`).then(x => {});
   }
 
@@ -63,11 +65,13 @@ class Profile extends Component {
     }
   }
 
-  async handleChange(value) {
-    await this.setState({ name: value });
+  async handleChange(value, course_id) {
+    console.log(this.props);
+    await this.setState({ course_name: value });
     await this.addCourses(
-      this.state.course_name,
-      this.props.userReducer.user.user_id
+      this.props.userReducer.user.user_id,
+      //   this.state.course_name
+      course_id
     );
     await this.getCourses();
   }
@@ -101,7 +105,7 @@ class Profile extends Component {
           </button>
           <input
             placeholder="Add Custom Course Here"
-            onChange={e => this.handleChange(e.target.value)}
+            onChange={e => this.handleChange(e.target.value, element.course_id)}
             onKeyPress={e =>
               this.updateCourses(
                 e,
