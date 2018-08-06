@@ -1,1 +1,0 @@
-UPDATE courses SET course_name = $1 WHERE user_id = $2 AND course_id = $3

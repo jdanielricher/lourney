@@ -52,7 +52,7 @@ class Courses extends Component {
 
   handleAdd(userId, courseId, course_name) {
     axios
-      .post(`/api/addCourse/${userId}/${courseId}`, {
+      .post(`/api/addCourses/${userId}/${courseId}`, {
         // userId,
         // courseId,
         course_name

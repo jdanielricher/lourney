@@ -10,18 +10,17 @@ class Profile extends Component {
     super();
     this.state = {
       user_courses: [],
-      course_name: "",
-      editInput: false,
-      editInputVal: "",
-      currentEditId: 0
+      course_name: ""
+      //   editInput: false,
+      //   editInputVal: "",
+      //   currentEditId: 0
     };
     this.getCourses = this.getCourses.bind(this);
     this.deleteCourses = this.deleteCourses.bind(this);
     this.addCourses = this.addCourses.bind(this);
-    // this.updateCourses = this.updateCourses.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.handleEditReset = this.handleEditReset.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -48,32 +47,35 @@ class Profile extends Component {
     });
   }
 
-  addCourses(userId, courseId, course_name) {
-    console.log("COURSE ID: ", courseId);
+  addCourses(userId, course_name) {
     console.log("USER ID: ", userId);
-    axios.post(`/api/addCourse/${userId}/${courseId}`).then(x => {});
+    axios.post(`/api/addCourses/${userId}/1`, { course_name }).then(x => {});
   }
 
-  updateCourses(event, course_name, userId, postId) {
-    if (event.key === "Enter") {
-      axios
-        .put(`/updateCourses/${userId}/${postId}`, { course_name })
-        .then(() => {
-          this.getPosts();
-          this.handleEditReset();
-        });
-    }
+  async handleSubmit(e) {
+    e.preventDefault();
+    await this.addCourses(
+      this.props.userReducer.user.user_id,
+      this.state.course_name
+    );
+
+    await this.getCourses();
   }
+
+  //   updateCourses(event, course_name, userId, postId) {
+  //     if (event.key === "Enter") {
+  //       axios
+  //         .put(`/updateCourses/${userId}/${postId}`, { course_name })
+  //         .then(() => {
+  //           this.getCourses();
+  //           this.handleEditReset();
+  //         });
+  //     }
+  //   }
 
   async handleChange(value, course_id) {
     console.log(this.props);
-    await this.setState({ course_name: value });
-    await this.addCourses(
-      this.props.userReducer.user.user_id,
-      //   this.state.course_name
-      course_id
-    );
-    await this.getCourses();
+    this.setState({ course_name: value });
   }
 
   handleKeyPress(event) {
@@ -82,13 +84,13 @@ class Profile extends Component {
     }
   }
 
-  handleEditReset() {
-    this.setState({
-      editInput: false,
-      editInputVal: "",
-      currentEditId: 0
-    });
-  }
+  //   handleEditReset() {
+  //     this.setState({
+  //       editInput: false,
+  //       editInputVal: "",
+  //       currentEditId: 0
+  //     });
+  //   }
 
   render() {
     let listOfCourses = this.state.user_courses.map((element, index) => {
@@ -103,19 +105,22 @@ class Profile extends Component {
           >
             Remove
           </button>
-          <input
-            placeholder="Add Custom Course Here"
-            onChange={e => this.handleChange(e.target.value, element.course_id)}
-            onKeyPress={e =>
-              this.updateCourses(
-                e,
-                this.state.course_name,
-                this.props.userReducer.user.user_id,
-                element.course_id
-              )
-            }
-          />
-          <button onClick={this.handleEditReset}>Cancel</button>
+          <form onSubmit={this.handleSubmit}>
+            <input
+              placeholder="Add Custom Course Here"
+              onChange={e =>
+                this.handleChange(e.target.value, element.course_id)
+              }
+              onKeyPress={e =>
+                this.addCourses(
+                  e,
+                  this.state.course_name,
+                  this.props.userReducer.user.user_id,
+                  element.course_id
+                )
+              }
+            />
+          </form>
         </div>
       );
     });

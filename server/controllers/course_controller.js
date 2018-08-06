@@ -34,7 +34,7 @@ const deleteCourses = (req, res, next) => {
     .catch(e => res.status(500).send("Something went terribly wrong"));
 };
 
-const addCourse = (req, res, next) => {
+const addCourses = (req, res, next) => {
   const db = req.app.get("db");
   //   const { user_ID, course_ID, course_name, description } = req.body;
   console.log("hit addCourse");
@@ -43,12 +43,12 @@ const addCourse = (req, res, next) => {
   db.courses
     .add_courses([
       req.params.userId,
+      //   req.params.courseId,
       req.body.course_name,
       req.body.description
     ])
     .then(() => res.status(200).send("Added Course"))
     .catch(e => {
-      console.log(e);
       res.status(500).send("Something went horribly wrong");
     });
 };
@@ -56,5 +56,5 @@ const addCourse = (req, res, next) => {
 module.exports = {
   getCourses,
   deleteCourses,
-  addCourse
+  addCourses
 };

@@ -18,7 +18,7 @@ const {
 const {
   getCourses,
   deleteCourses,
-  addCourse
+  addCourses
 } = require("./controllers/course_controller");
 
 const {
@@ -83,7 +83,7 @@ passport.deserializeUser((user, done) => {
 //COURSES ENDPOINTS///
 app.get("/courses/", getCourses);
 app.delete("/delete_courses/:userId/:courseId", deleteCourses);
-app.post("/api/addCourse/:userId/:courseId", addCourse);
+app.post("/api/addCourses/:userId/:courseId", addCourses);
 // app.get('/courses/?page=')
 // app.put("/edit_courses/:id", course_controller.editCourses);
 // app.post("/add_courses/", course_controller.addCourses);
